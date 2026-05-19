@@ -7,7 +7,7 @@
   <style>
     @page {
       size: A4;
-      margin: 0;
+      margin: 15mm 18mm 20mm 18mm;
     }
 
     * {
@@ -16,7 +16,7 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
       font-size: 14px;
       line-height: 1.6;
@@ -27,9 +27,14 @@
     .resume {
       width: 210mm;
       min-height: 297mm;
-      padding: 20mm 18mm;
+      padding: 18mm 0 10mm 0;
       margin: 0 auto;
       background: #fff;
+      position: relative;
+    }
+
+    .resume-content {
+      padding: 0 18mm;
     }
 
     /* 头部区域 */
@@ -97,7 +102,7 @@
 
     /* 通用区块 */
     .section {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .section-title {
@@ -122,9 +127,13 @@
 
     /* 经验/教育区块 */
     .item {
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       padding-left: 12px;
       border-left: 2px solid #e2e8f0;
+    }
+
+    .item:last-child {
+      margin-bottom: 0;
     }
 
     .item-header {
@@ -169,7 +178,11 @@
     ul li {
       position: relative;
       padding-left: 18px;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
+    }
+
+    ul li:last-child {
+      margin-bottom: 0;
     }
 
     ul li::before {
@@ -267,19 +280,61 @@
       font-size: 14px;
       box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
       transition: background 0.2s;
+      z-index: 1000;
     }
 
     .print-btn:hover {
       background: #1d4ed8;
     }
 
+    /* 页脚 - 页码 */
+    .page-footer {
+      display: none;
+    }
+
     @media print {
       .print-btn {
-        display: none;
+        display: none !important;
+      }
+
+      html, body {
+        width: 210mm;
       }
 
       .resume {
-        padding: 15mm 15mm;
+        padding: 15mm 0 8mm 0;
+        margin: 0;
+      }
+
+      .resume-content {
+        padding: 0 15mm;
+      }
+
+      /* 页脚 */
+      .page-footer {
+        display: block;
+        position: fixed;
+        bottom: 8mm;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 11px;
+        color: #94a3b8;
+      }
+
+      .page-footer .page-number {
+        padding: 0 18mm;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      /* 分页控制 */
+      .section {
+        break-inside: avoid;
+      }
+
+      .item {
+        break-inside: avoid;
       }
 
       .collapse-toggle::after {
@@ -296,116 +351,75 @@
   <button class="print-btn" onclick="window.print()">打印 / 导出 PDF</button>
 
   <div class="resume">
-    <!-- 头部信息 -->
-    <div class="header">
-      <!-- 头像：替换 src 为你的照片路径 -->
-      <img class="avatar" src="avatar.jpg" alt="头像"
-           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-      <div class="photo-placeholder" style="display:none;">请添加<br>照片</div>
+    <div class="resume-content">
+      <!-- 头部信息 -->
+      <div class="header">
+        <!-- 头像：替换 src 为你的照片路径 -->
+        <img class="avatar" src="avatar.jpg" alt="头像"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="photo-placeholder" style="display:none;">请添加<br>照片</div>
 
-      <div class="header-info">
-        <h1 class="name">张三</h1>
-        <div class="basic-info">
-          <span data-label="📧">zhangsan@email.com</span>
-          <span data-label="📱">138-0000-0000</span>
-          <span data-label="📍">北京市朝阳区</span>
-          <span data-label="🎂">1995年6月</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 求职意向 -->
-    <div class="objective">
-      <div class="objective-title">求职意向</div>
-      <div class="item-content">前端开发工程师 | 期望薪资：20-30K | 期望城市：北京</div>
-    </div>
-
-    <!-- 教育背景 -->
-    <div class="section">
-      <h2 class="section-title">教育背景</h2>
-      <div class="item">
-        <div class="item-header">
-          <div>
-            <span class="item-title">北京理工大学</span>
-            <span class="item-subtitle">· 计算机科学与技术</span>
+        <div class="header-info">
+          <h1 class="name">张三</h1>
+          <div class="basic-info">
+            <span data-label="📧">zhangsan@email.com</span>
+            <span data-label="📱">138-0000-0000</span>
+            <span data-label="📍">北京市朝阳区</span>
+            <span data-label="🎂">1995年6月</span>
           </div>
-          <div>
-            <span class="item-date">2013.09 - 2017.06</span>
-          </div>
-        </div>
-        <div class="item-content">
-          <ul>
-            <li>GPA 3.8/4.0，专业排名前10%</li>
-            <li>获得校级一等奖学金3次</li>
-            <li>ACM大学生程序设计竞赛省级金奖</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- 工作经历 -->
-    <div class="section">
-      <h2 class="section-title">工作经历</h2>
-
-      <div class="item">
-        <div class="item-header">
-          <div>
-            <span class="item-title">字节跳动</span>
-            <span class="item-subtitle">· 前端开发工程师</span>
-          </div>
-          <div>
-            <span class="item-date">2020.07 - 至今</span>
-            <span class="item-location">· 北京</span>
-          </div>
-        </div>
-        <div class="item-content">
-          <ul>
-            <li>负责抖音直播平台前端架构设计与开发，主导完成直播间礼物系统重构</li>
-            <li>使用 React + TypeScript 构建组件库，输出20+高质量业务组件</li>
-            <li>优化首屏加载性能，白屏时间从2.3s降至0.8s，用户体验显著提升</li>
-            <li>推动团队敏捷实践，组织技术分享5场，提升团队整体技术水平</li>
-          </ul>
         </div>
       </div>
 
-      <div class="item">
-        <div class="item-header">
-          <div>
-            <span class="item-title">阿里巴巴</span>
-            <span class="item-subtitle">· 前端开发工程师</span>
-          </div>
-          <div>
-            <span class="item-date">2017.07 - 2020.06</span>
-            <span class="item-location">· 杭州</span>
-          </div>
-        </div>
-        <div class="item-content">
-          <ul>
-            <li>参与淘宝商家后台开发，负责订单管理和数据分析模块</li>
-            <li>基于 Vue.js 构建可复用的后台管理模板，支撑30+产品线接入</li>
-            <li>封装 ECharts 图表组件，实现数据可视化需求落地</li>
-          </ul>
-        </div>
+      <!-- 求职意向 -->
+      <div class="objective">
+        <div class="objective-title">求职意向</div>
+        <div class="item-content">前端开发工程师 | 期望薪资：20-30K | 期望城市：北京</div>
       </div>
-    </div>
 
-    <!-- 项目经验（可折叠） -->
-    <div class="section">
-      <h2 class="section-title collapse-toggle" onclick="toggleCollapse(this)">项目经验</h2>
-      <div class="collapse-content">
+      <!-- 教育背景 -->
+      <div class="section">
+        <h2 class="section-title">教育背景</h2>
         <div class="item">
           <div class="item-header">
             <div>
-              <span class="item-title">Vue Component Library</span>
-              <span class="item-subtitle">· 开源组件库</span>
+              <span class="item-title">北京理工大学</span>
+              <span class="item-subtitle">· 计算机科学与技术</span>
             </div>
-            <span class="item-date">2022.01 - 至今</span>
+            <div>
+              <span class="item-date">2013.09 - 2017.06</span>
+            </div>
           </div>
           <div class="item-content">
             <ul>
-              <li>开发并维护 Vue 3 组件库，累计 Star 2.3k</li>
-              <li>支持按需加载(Tree Shaking)，包体积减少 40%</li>
-              <li>完善的 TypeScript 类型支持，提供友好的开发体验</li>
+              <li>GPA 3.8/4.0，专业排名前10%</li>
+              <li>获得校级一等奖学金3次</li>
+              <li>ACM大学生程序设计竞赛省级金奖</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 工作经历 -->
+      <div class="section">
+        <h2 class="section-title">工作经历</h2>
+
+        <div class="item">
+          <div class="item-header">
+            <div>
+              <span class="item-title">字节跳动</span>
+              <span class="item-subtitle">· 前端开发工程师</span>
+            </div>
+            <div>
+              <span class="item-date">2020.07 - 至今</span>
+              <span class="item-location">· 北京</span>
+            </div>
+          </div>
+          <div class="item-content">
+            <ul>
+              <li>负责抖音直播平台前端架构设计与开发，主导完成直播间礼物系统重构</li>
+              <li>使用 React + TypeScript 构建组件库，输出20+高质量业务组件</li>
+              <li>优化首屏加载性能，白屏时间从2.3s降至0.8s，用户体验显著提升</li>
+              <li>推动团队敏捷实践，组织技术分享5场，提升团队整体技术水平</li>
             </ul>
           </div>
         </div>
@@ -413,84 +427,135 @@
         <div class="item">
           <div class="item-header">
             <div>
-              <span class="item-title">React Performance Monitor</span>
-              <span class="item-subtitle">· 性能监控工具</span>
+              <span class="item-title">阿里巴巴</span>
+              <span class="item-subtitle">· 前端开发工程师</span>
             </div>
-            <span class="item-date">2021.06 - 2021.12</span>
+            <div>
+              <span class="item-date">2017.07 - 2020.06</span>
+              <span class="item-location">· 杭州</span>
+            </div>
           </div>
           <div class="item-content">
             <ul>
-              <li>开发 React 性能监控 SDK，实时捕获页面卡顿和内存泄漏</li>
-              <li>集成 Web Vitals 指标，自动上报 FCP、LCP、CLS 等数据</li>
-              <li>支持无痕埋点，日均处理数据量达千万级别</li>
+              <li>参与淘宝商家后台开发，负责订单管理和数据分析模块</li>
+              <li>基于 Vue.js 构建可复用的后台管理模板，支撑30+产品线接入</li>
+              <li>封装 ECharts 图表组件，实现数据可视化需求落地</li>
             </ul>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- 技能特长 -->
-    <div class="section">
-      <h2 class="section-title">技能特长</h2>
-      <div class="skills-grid">
-        <div class="skill-category">
-          <div class="skill-name">前端技术</div>
-          <div class="skill-tags">
-            <span class="skill-tag">React</span>
-            <span class="skill-tag">Vue.js</span>
-            <span class="skill-tag">TypeScript</span>
-            <span class="skill-tag">Node.js</span>
+      <!-- 项目经验（可折叠） -->
+      <div class="section">
+        <h2 class="section-title collapse-toggle" onclick="toggleCollapse(this)">项目经验</h2>
+        <div class="collapse-content">
+          <div class="item">
+            <div class="item-header">
+              <div>
+                <span class="item-title">Vue Component Library</span>
+                <span class="item-subtitle">· 开源组件库</span>
+              </div>
+              <span class="item-date">2022.01 - 至今</span>
+            </div>
+            <div class="item-content">
+              <ul>
+                <li>开发并维护 Vue 3 组件库，累计 Star 2.3k</li>
+                <li>支持按需加载(Tree Shaking)，包体积减少 40%</li>
+                <li>完善的 TypeScript 类型支持，提供友好的开发体验</li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="skill-category">
-          <div class="skill-name">工具链</div>
-          <div class="skill-tags">
-            <span class="skill-tag">Webpack</span>
-            <span class="skill-tag">Vite</span>
-            <span class="skill-tag">Git</span>
-            <span class="skill-tag">Docker</span>
-          </div>
-        </div>
-        <div class="skill-category">
-          <div class="skill-name">数据库</div>
-          <div class="skill-tags">
-            <span class="skill-tag">MySQL</span>
-            <span class="skill-tag">Redis</span>
-            <span class="skill-tag">MongoDB</span>
-          </div>
-        </div>
-        <div class="skill-category">
-          <div class="skill-name">其他</div>
-          <div class="skill-tags">
-            <span class="skill-tag">英语六级</span>
-            <span class="skill-tag">驾照C1</span>
+
+          <div class="item">
+            <div class="item-header">
+              <div>
+                <span class="item-title">React Performance Monitor</span>
+                <span class="item-subtitle">· 性能监控工具</span>
+              </div>
+              <span class="item-date">2021.06 - 2021.12</span>
+            </div>
+            <div class="item-content">
+              <ul>
+                <li>开发 React 性能监控 SDK，实时捕获页面卡顿和内存泄漏</li>
+                <li>集成 Web Vitals 指标，自动上报 FCP、LCP、CLS 等数据</li>
+                <li>支持无痕埋点，日均处理数据量达千万级别</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- 荣誉奖励 -->
-    <div class="section">
-      <h2 class="section-title collapse-toggle" onclick="toggleCollapse(this)">荣誉奖励</h2>
-      <div class="collapse-content">
+      <!-- 技能特长 -->
+      <div class="section">
+        <h2 class="section-title">技能特长</h2>
+        <div class="skills-grid">
+          <div class="skill-category">
+            <div class="skill-name">前端技术</div>
+            <div class="skill-tags">
+              <span class="skill-tag">React</span>
+              <span class="skill-tag">Vue.js</span>
+              <span class="skill-tag">TypeScript</span>
+              <span class="skill-tag">Node.js</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-name">工具链</div>
+            <div class="skill-tags">
+              <span class="skill-tag">Webpack</span>
+              <span class="skill-tag">Vite</span>
+              <span class="skill-tag">Git</span>
+              <span class="skill-tag">Docker</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-name">数据库</div>
+            <div class="skill-tags">
+              <span class="skill-tag">MySQL</span>
+              <span class="skill-tag">Redis</span>
+              <span class="skill-tag">MongoDB</span>
+            </div>
+          </div>
+          <div class="skill-category">
+            <div class="skill-name">其他</div>
+            <div class="skill-tags">
+              <span class="skill-tag">英语六级</span>
+              <span class="skill-tag">驾照C1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 荣誉奖励 -->
+      <div class="section">
+        <h2 class="section-title collapse-toggle" onclick="toggleCollapse(this)">荣誉奖励</h2>
+        <div class="collapse-content">
+          <div class="item-content">
+            <ul>
+              <li>2023年 字节跳动年度优秀员工</li>
+              <li>2021年 阿里巴巴技术标兵</li>
+              <li>2019年 淘宝双十一技术保障贡献奖</li>
+              <li>2016年 ACM程序设计竞赛省级金奖</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 自我评价 -->
+      <div class="section">
+        <h2 class="section-title">自我评价</h2>
         <div class="item-content">
-          <ul>
-            <li>2023年 字节跳动年度优秀员工</li>
-            <li>2021年 阿里巴巴技术标兵</li>
-            <li>2019年 淘宝双十一技术保障贡献奖</li>
-            <li>2016年 ACM程序设计竞赛省级金奖</li>
-          </ul>
+          6年前端开发经验，擅长 React/Vue 技术栈，具有丰富的大规模前端项目架构经验。
+          对性能优化、前端工程化有深入研究，热衷于技术分享和开源贡献。
+          具有良好的沟通协调能力和团队合作精神，能承受一定工作压力。
         </div>
       </div>
     </div>
 
-    <!-- 自我评价 -->
-    <div class="section">
-      <h2 class="section-title">自我评价</h2>
-      <div class="item-content">
-        6年前端开发经验，擅长 React/Vue 技术栈，具有丰富的大规模前端项目架构经验。
-        对性能优化、前端工程化有深入研究，热衷于技术分享和开源贡献。
-        具有良好的沟通协调能力和团队合作精神，能承受一定工作压力。
+    <!-- 页脚 - 打印时显示 -->
+    <div class="page-footer">
+      <div class="page-number">
+        <span></span>
+        <span>第 <span class="current-page">1</span> 页 / 共 <span class="total-pages">1</span> 页</span>
       </div>
     </div>
   </div>
@@ -501,6 +566,41 @@
       const content = el.nextElementSibling;
       content.classList.toggle('collapsed');
     }
+
+    // 打印前计算页码
+    function updatePageNumbers() {
+      const currentPageEl = document.querySelector('.current-page');
+      const totalPagesEl = document.querySelector('.total-pages');
+
+      // 获取简历内容的实际高度
+      const resume = document.querySelector('.resume');
+      const content = document.querySelector('.resume-content');
+
+      // 计算总页数（基于A4纸高度）
+      const pageHeight = 277; // 297mm - 20mm(上下margin)
+
+      // 克隆内容测量高度
+      const clone = content.cloneNode(true);
+      clone.style.position = 'absolute';
+      clone.style.visibility = 'hidden';
+      clone.style.width = '174mm'; // 210mm - 36mm(左右padding)
+      document.body.appendChild(clone);
+
+      const totalHeight = clone.offsetHeight;
+      document.body.removeChild(clone);
+
+      const totalPages = Math.ceil(totalHeight / pageHeight);
+      const safeTotalPages = Math.max(1, totalPages);
+
+      currentPageEl.textContent = '1';
+      totalPagesEl.textContent = safeTotalPages;
+    }
+
+    // 监听打印事件
+    window.addEventListener('beforeprint', updatePageNumbers);
+
+    // 初始执行
+    updatePageNumbers();
   </script>
 </body>
 </html>
