@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>简历 - 张三</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333;
+      background: #fff;
+    }
+
+    .resume {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm 18mm;
+      margin: 0 auto;
+      background: #fff;
+    }
+
+    /* 头部区域 */
+    .header {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #2563eb;
+      margin-bottom: 20px;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .header-info {
+      flex: 1;
+    }
+
+    .name {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+
+    .basic-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .basic-info span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .basic-info span::before {
+      content: attr(data-label);
+      font-weight: 500;
+    }
+
+    /* 求职意向 */
+    .objective {
+      background: #f8fafc;
+      padding: 10px 14px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      border-left: 3px solid #2563eb;
+    }
+
+    .objective-title {
+      font-weight: 600;
+      color: #2563eb;
+      margin-bottom: 4px;
+    }
+
+    /* 通用区块 */
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #2563eb;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 4px;
+      height: 16px;
+      background: #2563eb;
+      border-radius: 2px;
+    }
+
+    /* 经验/教育区块 */
+    .item {
+      margin-bottom: 16px;
+      padding-left: 12px;
+      border-left: 2px solid #e2e8f0;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .item-title {
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .item-subtitle {
+      font-weight: 500;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .item-date {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .item-location {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .item-content {
+      font-size: 13px;
+      color: #475569;
+    }
+
+    /* 列表样式 */
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 6px;
+    }
+
+    ul li::before {
+      content: "•";
+      position: absolute;
+      left: 4px;
+      color: #2563eb;
+      font-weight: bold;
+    }
+
+    /* 技能区块 */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .skill-category {
+      margin-bottom: 8px;
+    }
+
+    .skill-name {
+      font-weight: 500;
+      color: #334155;
+      margin-bottom: 4px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .skill-tag {
+      background: #f1f5f9;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      color: #475569;
+    }
+
+    /* 可折叠区块 */
+    .collapse-toggle {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+    }
+
+    .collapse-toggle::after {
+      content: "▾";
+      transition: transform 0.2s;
+    }
+
+    .collapse-toggle.collapsed::after {
+      transform: rotate(-90deg);
+    }
+
+    .collapse-content {
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .collapse-content.collapsed {
+      max-height: 0;
+    }
+
+    /* 图片占位符 */
+    .photo-placeholder {
+      width: 80px;
+      height: 100px;
+      background: #f1f5f9;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      font-size: 12px;
+      text-align: center;
+      border: 1px dashed #cbd5e1;
+    }
+
+    /* 打印按钮 */
+    .print-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+      transition: background 0.2s;
+    }
+
+    .print-btn:hover {
+      background: #1d4ed8;
+    }
+
+    @media print {
+      .print-btn {
+        display: none;
+      }
+
+      .resume {
+        padding: 15mm 15mm;
+      }
+
+      .collapse-toggle::after {
+        display: none;
+      }
+
+      .collapse-content.collapsed {
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="print-btn" onclick="window.print()">打印 / 导出 PDF</button>
+
+  <div class="resume">
+    <!-- 头部信息 -->
+    <div class="header">
+      <!-- 头像：替换 src 为你的照片路径 -->
+      <img class="avatar" src="avatar.jpg" alt="头像"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="photo-placeholder" style="display:none;">请添加<br>照片</div>
+
+      <div class="header-info">
+        <h1 class="name">张三</h1>
+        <div class="basic-info">
+          <span data-label="📧">zhangsan@email.com</span>
+          <span data-label="📱">138-0000-0000</span>
+          <span data-label="📍">北京市朝阳区</span>
+          <span data-label="🎂">1995年6月</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 求职意向 -->
+    <div class="objective">
+      <div class="objective-title">求职意向</div>
+      <div class="item-content">前端开发工程师 | 期望薪资：20-30K | 期望城市：北京</div>
+    </div>
+
+    <!-- 教育背景 -->
+    <div class="section">
+      <h2 class="section-title">教育背景</h2>
+      <div class="item">
+        <div class="item-header">
+          <div>
+            <span class="item-title">北京理工大学</span>
+            <span class="item-subtitle">· 计算机科学与技术</span>
+          </div>
+          <div>
+            <span class="item-date">2013.09 - 2017.06</span>
+          </div>
+        </div>
+        <div class="item-content">
+          <ul>
+            <li>GPA 3.8/4.0，专业排名前10%</li>
+            <li>获得校级一等奖学金3次</li>
+            <li>ACM大学生程序设计竞赛省级金奖</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 工作经历 -->
+    <div class="section">
+      <h2 class="section-title">工作经历</h2>
+
+      <div class="item">
+        <div class="item-header">
+          <div>
+            <span class="item-title">字节跳动</span>
+            <span class="item-subtitle">· 前端开发工程师</span>
+          </div>
+          <div>
+            <span class="item-date">2020.07 - 至今</span>
+            <span class="item-location">· 北京</span>
+          </div>
+        </div>
+        <div class="item-content">
+          <ul>
+            <li>负责抖音直播平台前端架构设计与开发，主导完成直播间礼物系统重构</li>
+            <li>使用 React + TypeScript 构建组件库，输出20+高质量业务组件</li>
+            <li>优化首屏加载性能，白屏时间从2.3s降至0.8s，用户体验显著提升</li>
+            <li>推动团队敏捷实践，组织技术分享5场，提升团队整体技术水平</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <div>
+            <span class="item-title">阿里巴巴</span>
+            <span class="item-subtitle">· 前端开发工程师</span>
+          </div>
+          <div>
+            <span class="item-date">2017.07 - 2020.06</span>
+            <span class="item-location">· 杭州</span>
+          </div>
+        </div>
+        <div class="item-content">
+          <ul>
+            <li>参与淘宝商家后台开发，负责订单管理和数据分析模块</li>
+            <li>基于 Vue.js 构建可复用的后台管理模板，支撑30+产品线接入</li>
+            <li>封装 ECharts 图表组件，实现数据可视化需求落地</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 项目经验（可折叠） -->
+    <div class="section">
+      <h2 class="section-title collapse-toggle" onclick="toggleCollapse(this)">项目经验</h2>
+      <div class="collapse-content">
+        <div class="item">
+          <div class="item-header">
+            <div>
+              <span class="item-title">Vue Component Library</span>
+              <span class="item-subtitle">· 开源组件库</span>
+            </div>
+            <span class="item-date">2022.01 - 至今</span>
+          </div>
+          <div class="item-content">
+            <ul>
+              <li>开发并维护 Vue 3 组件库，累计 Star 2.3k</li>
+              <li>支持按需加载(Tree Shaking)，包体积减少 40%</li>
+              <li>完善的 TypeScript 类型支持，提供友好的开发体验</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-header">
+            <div>
+              <span class="item-title">React Performance Monitor</span>
+              <span class="item-subtitle">· 性能监控工具</span>
+            </div>
+            <span class="item-date">2021.06 - 2021.12</span>
+          </div>
+          <div class="item-content">
+            <ul>
+              <li>开发 React 性能监控 SDK，实时捕获页面卡顿和内存泄漏</li>
+              <li>集成 Web Vitals 指标，自动上报 FCP、LCP、CLS 等数据</li>
+              <li>支持无痕埋点，日均处理数据量达千万级别</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 技能特长 -->
+    <div class="section">
+      <h2 class="section-title">技能特长</h2>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <div class="skill-name">前端技术</div>
+          <div class="skill-tags">
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Vue.js</span>
+            <span class="skill-tag">TypeScript</span>
+            <span class="skill-tag">Node.js</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <div class="skill-name">工具链</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Webpack</span>
+            <span class="skill-tag">Vite</span>
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Docker</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <div class="skill-name">数据库</div>
+          <div class="skill-tags">
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">MongoDB</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <div class="skill-name">其他</div>
+          <div class="skill-tags">
+            <span class="skill-tag">英语六级</span>
+            <span class="skill-tag">驾照C1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 荣誉奖励 -->
+    <div class="section">
+      <h2 class="section-title collapse-toggle" onclick="toggleCollapse(this)">荣誉奖励</h2>
+      <div class="collapse-content">
+        <div class="item-content">
+          <ul>
+            <li>2023年 字节跳动年度优秀员工</li>
+            <li>2021年 阿里巴巴技术标兵</li>
+            <li>2019年 淘宝双十一技术保障贡献奖</li>
+            <li>2016年 ACM程序设计竞赛省级金奖</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 自我评价 -->
+    <div class="section">
+      <h2 class="section-title">自我评价</h2>
+      <div class="item-content">
+        6年前端开发经验，擅长 React/Vue 技术栈，具有丰富的大规模前端项目架构经验。
+        对性能优化、前端工程化有深入研究，热衷于技术分享和开源贡献。
+        具有良好的沟通协调能力和团队合作精神，能承受一定工作压力。
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleCollapse(el) {
+      el.classList.toggle('collapsed');
+      const content = el.nextElementSibling;
+      content.classList.toggle('collapsed');
+    }
+  </script>
+</body>
+</html>
